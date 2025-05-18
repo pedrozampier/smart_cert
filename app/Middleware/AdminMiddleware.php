@@ -7,13 +7,13 @@ use Core\Http\Request;
 use Lib\Authentication\Auth;
 use Lib\FlashMessage;
 
-class Authenticate implements Middleware
+class AdminMiddleware implements Middleware
 {
     public function handle(Request $request): void
     {
-        if (!Auth::check()) {
-            FlashMessage::danger('Você deve estar logado para acessar essa página');
-            $this->redirectTo(route('root'));
+        if (!Auth::check() || !Auth::user()->admin) {
+            FlashMessage::danger('Você deve ser administrador para acessar essa página');
+            $this->redirectTo('/user/dashboard');
         }
     }
 
