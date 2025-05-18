@@ -1,6 +1,7 @@
-## Problem Track
+## Smart Cert
 
-"Problem Track" is the ultimate solution for organizations seeking to enhance their problem resolution processes, drive operational efficiency, and deliver exceptional customer experiences.
+"Smart Cert" is the ultimate solution for organizations seeking to enhance their certification processes, drive operational efficiency, and deliver exceptional quality and compliance.
+
 
 ### Dependências
 
@@ -12,8 +13,8 @@
 #### Clone Repository
 
 ```
-$ git clone git@github.com:SI-DABE/problem-track.git
-$ cd problem-track
+$ git clone git@github.com:pedrozampier/smart_cert.git
+$ cd smart_cert
 ```
 
 #### Define the env variables
