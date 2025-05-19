@@ -9,12 +9,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
-
 Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/admin/dashboard', [HomeController::class, 'adminDashboard']);
     });
+
+    Route::get('/logout', [AuthController::class, 'logout']);
 
     Route::get('/user/dashboard', [HomeController::class, 'userDashboard']);
 });
