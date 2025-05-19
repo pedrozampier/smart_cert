@@ -6,6 +6,7 @@ class App
 {
     public static array $middlewareAliases = [
         'auth' => \App\Middleware\Authenticate::class,
-        'admin' => \App\Middleware\AdminMiddleware::class
+        'admin' => \App\Middleware\AdminMiddleware::class,
+        'guest' => \App\Middleware\GuestMiddleware::class,
     ];
 }
