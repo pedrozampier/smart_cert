@@ -58,4 +58,16 @@ class User extends Model
             $this->encrypted_password = password_hash($value, PASSWORD_DEFAULT);
         }
     }
+
+    public static function create(array $data): User
+    {
+        $user = new self();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->encrypted_password = password_hash($data['encrypted_password'], PASSWORD_DEFAULT);
+        $user->admin = $data['admin'] ?? false;
+
+        $user->save();
+        return $user;
+    }
 }
