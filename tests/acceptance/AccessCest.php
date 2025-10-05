@@ -21,6 +21,7 @@ class AccessCest
         $I->fillField('email', 'email@invalido.com');
         $I->fillField('password', 'senhaerrada');
         $I->click('Enter');
+        $I->wait(0.5);
         $I->see('Credenciais inválidas');
     }
 
@@ -31,6 +32,7 @@ class AccessCest
         $I->fillField('email', 'user@example.com');
         $I->fillField('password', 'user*1212');
         $I->click('Enter');
+        $I->wait(2);
         $I->seeInCurrentUrl('/user/dashboard');
     }
 
@@ -41,6 +43,7 @@ class AccessCest
         $I->fillField('email', 'admin@example.com');
         $I->fillField('password', 'admin*1212');
         $I->click('Enter');
+        $I->wait(2);
         $I->seeInCurrentUrl('/admin/dashboard');
     }
 
@@ -85,6 +88,7 @@ class AccessCest
         $I->fillField('email', 'user@example.com');
         $I->fillField('password', 'user*1212');
         $I->click('Enter');
+        $I->wait(2);
         $I->amOnPage('/admin/dashboard');
         $I->see('Você deve ser administrador para acessar essa página');
     }

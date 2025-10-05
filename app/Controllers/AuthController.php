@@ -28,7 +28,7 @@ class AuthController
 
         Auth::login($user);
 
-        if ($user->admin) {
+        if ($user->is_admin) {
             return redirect('/admin/dashboard');
         } else {
             return redirect('/user/dashboard');
