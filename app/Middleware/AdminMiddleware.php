@@ -11,7 +11,7 @@ class AdminMiddleware implements Middleware
 {
     public function handle(Request $request): void
     {
-        if (!Auth::check() || !Auth::user()->admin) {
+        if (!Auth::check() || !Auth::user()->is_admin) {
             FlashMessage::danger('Você deve ser administrador para acessar essa página');
             $this->redirectTo('/user/dashboard');
         }

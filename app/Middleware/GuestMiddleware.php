@@ -12,7 +12,7 @@ class GuestMiddleware implements Middleware
     public function handle(Request $request): void
     {
         if (Auth::check()) {
-            $route = Auth::user()->admin ? '/admin/dashboard' : '/user/dashboard';
+            $route = Auth::user()->is_admin ? '/admin/dashboard' : '/user/dashboard';
             $this->redirectTo($route);
         }
     }
