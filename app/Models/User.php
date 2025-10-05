@@ -15,7 +15,7 @@ use Core\Database\ActiveRecord\Model;
 class User extends Model
 {
     protected static string $table = 'users';
-    protected static array $columns = ['name', 'email', 'encrypted_password', 'admin'];
+    protected static array $columns = ['created_at', 'updated_at', 'name', 'email', 'encrypted_password', 'phone', 'cpf', 'is_active', 'is_admin'];
 
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
@@ -62,10 +62,14 @@ class User extends Model
     public static function create(array $data): User
     {
         $user = new self();
+        $user->created_at = date('Y-m-d H:i:s');
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->encrypted_password = password_hash($data['encrypted_password'], PASSWORD_DEFAULT);
-        $user->admin = $data['admin'] ?? false;
+        $user->is_admin = $data['is_admin'] ?? false;
+        $user->is_active = $data['is_active'] ?? true;
+        $user->phone = $data['phone'] ?? null;
+        $user->cpf = $data['cpf'] ?? null;
 
         $user->save();
         return $user;
