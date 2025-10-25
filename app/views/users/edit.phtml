@@ -1,0 +1,68 @@
+<form action="<?= route('users.update', ['id' => $user->id]) ?>" method="POST" class="<?= $user->hasErrors() ? 'was-validated' : '' ?>" novalidate>
+    <input type="hidden" name="_method" value="PUT">
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="user_name" class="form-label">Nome:</label>
+            <input type="text" name="user[name]" class="form-control" id="user_name" value="<?= $user->name ?>" required>
+            <div class="invalid-feedback"><?= $user->errors('name') ? $user->errors('name') : '' ?></div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="user_email" class="form-label">Email:</label>
+            <input type="email" name="user[email]" class="form-control" id="user_email" value="<?= $user->email ?>" required>
+            <div class="invalid-feedback"><?= $user->errors('email') ? $user->errors('email') : '' ?></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="user_cpf" class="form-label">CPF:</label>
+            <input type="text" name="user[cpf]" class="form-control" id="user_cpf" value="<?= $user->cpf ?>">
+            <div class="invalid-feedback"><?= $user->errors('cpf') ? $user->errors('cpf') : '' ?></div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="user_phone" class="form-label">Telefone:</label>
+            <input type="text" name="user[phone]" class="form-control" id="user_phone" value="<?= $user->phone ?>">
+            <div class="invalid-feedback"><?= $user->errors('phone') ? $user->errors('phone') : '' ?></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="user_password" class="form-label">Nova Senha (deixe em branco para não alterar):</label>
+            <input type="password" name="user[password]" class="form-control" id="user_password">
+            <div class="invalid-feedback"><?= $user->errors('password') ? $user->errors('password') : '' ?></div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="user_password_confirmation" class="form-label">Confirmação de Nova Senha:</label>
+            <input type="password" name="user[password_confirmation]" class="form-control" id="user_password_confirmation">
+            <div class="invalid-feedback"><?= $user->errors('password_confirmation') ? $user->errors('password_confirmation') : '' ?></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="user[is_admin]" value="1" id="user_is_admin" <?= $user->is_admin ? 'checked' : '' ?>>
+                <label class="form-check-label" for="user_is_admin">
+                    Administrador
+                </label>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="user[is_active]" value="1" id="user_is_active" <?= $user->is_active ? 'checked' : '' ?>>
+                <label class="form-check-label" for="user_is_active">
+                    Ativo
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+    <a href="<?= route('users.index') ?>" class="btn btn-secondary">Cancelar</a>
+</form>

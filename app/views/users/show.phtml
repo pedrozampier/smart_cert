@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title"><?= $user->name ?></h5>
+        <div class="row">
+            <div class="col-md-6">
+                <p class="card-text">
+                    <strong>Email:</strong> <?= $user->email ?>
+                </p>
+                <p class="card-text">
+                    <strong>CPF:</strong> <?= $user->cpf ?? '-' ?>
+                </p>
+                <p class="card-text">
+                    <strong>Telefone:</strong> <?= $user->phone ?? '-' ?>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p class="card-text">
+                    <strong>Administrador:</strong> <?= $user->is_admin ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-secondary">Não</span>' ?>
+                </p>
+                <p class="card-text">
+                    <strong>Ativo:</strong> <?= $user->is_active ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>' ?>
+                </p>
+                <p class="card-text">
+                    <strong>Criado em:</strong> <?= $user->created_at ?? '-' ?>
+                </p>
+                <p class="card-text">
+                    <strong>Atualizado em:</strong> <?= $user->updated_at ?? '-' ?>
+                </p>
+            </div>
+        </div>
+        <hr>
+        <a href="<?= route('users.edit', ['id' => $user->id]) ?>" class="btn btn-primary">Editar</a>
+        <a href="<?= route('users.index') ?>" class="btn btn-secondary">Voltar</a>
+    </div>
+</div>

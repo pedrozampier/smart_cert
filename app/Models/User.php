@@ -24,6 +24,7 @@ class User extends Model
     {
         Validations::notEmpty('name', $this);
         Validations::notEmpty('email', $this);
+        Validations::notEmpty('cpf', $this);
 
         Validations::uniqueness('email', $this);
 
@@ -52,7 +53,6 @@ class User extends Model
 
         if (
             $property === 'password' &&
-            $this->newRecord() &&
             $value !== null && $value !== ''
         ) {
             $this->encrypted_password = password_hash($value, PASSWORD_DEFAULT);
