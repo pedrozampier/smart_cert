@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-8 mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Procurar usuários" aria-label="Procurar usuários" aria-describedby="button-addon2">
+            <button class="btn btn-outline-primary" type="button">
+                Pesquisar...
+            </button>
+        </div>
+    </div>
+    <div class="col-4">
+        <a href="<?= route('users.new') ?>" class="btn btn-outline-primary">
+            <i class="bi bi-plus"></i>
+            Cadastrar Usuário
+        </a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Admin</th>
+        <th>Ativo</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $user) : ?>
+            <tr>
+                <td><a href="<?= route('users.show', ['id' => $user->id]) ?>">#<?= $user->id ?></a></td>
+                <td><?= $user->name ?></td>
+                <td><?= $user->email ?></td>
+                <td><?= $user->cpf ?? '-' ?></td>
+                <td><?= $user->phone ?? '-' ?></td>
+                <td><?= $user->is_admin ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-secondary">Não</span>' ?></td>
+                <td><?= $user->is_active ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>' ?></td>
+                <td>
+                    <div class="d-flex flex-row-reverse">
+                        <form action="<?= route('users.destroy', ['id' => $user->id]) ?>" method="POST" class="m-0">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-link"><i class="bi bi-archive"></i></button>
+                        </form>
+                        <a href="<?= route('users.edit', ['id' => $user->id]) ?>" class="btn btn-link pe-0">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php $paginator->renderPagesNavigation(); ?>
