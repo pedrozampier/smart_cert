@@ -1,55 +1,89 @@
-<div class="row">
-    <div class="col-8 mb-3">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Procurar usuários" aria-label="Procurar usuários" aria-describedby="button-addon2">
-            <button class="btn btn-outline-primary" type="button">
-                Pesquisar...
-            </button>
+<div class="max-w-7xl mx-auto">
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">
+            <?= $title ?>
+        </h1>
+    </header>
+
+    <div class="flex flex-col lg:flex-row gap-4 mb-8">
+        <div class="flex-1">
+            <div class="flex gap-2">
+                <input 
+                    type="text" 
+                    class="flex-1 rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-[#4A90E2]" 
+                    placeholder="Procurar usuários" 
+                    aria-label="Procurar usuários"
+                >
+                <button class="bg-[#2B6CE4] text-white px-6 py-3 rounded-md hover:bg-[#1F54C7] transition-colors font-medium">
+                    Pesquisar
+                </button>
+            </div>
+        </div>
+        
+        <div>
+            <a href="<?= route('users.new') ?>" class="bg-[#2B6CE4] text-white px-6 py-3 rounded-md hover:bg-[#1F54C7] transition-colors font-medium inline-flex items-center gap-2">
+                <i class="bi bi-plus"></i>
+                Cadastrar Usuário
+            </a>
         </div>
     </div>
-    <div class="col-4">
-        <a href="<?= route('users.new') ?>" class="btn btn-outline-primary">
-            <i class="bi bi-plus"></i>
-            Cadastrar Usuário
-        </a>
+
+    <div class="rounded-lg overflow-hidden border border-[#2B6CE4]">
+        <table class="w-full">
+            <thead class="bg-[#14254E]">
+                <tr>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">ID</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Nome</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Email</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">CPF</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Telefone</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Admin</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Ativo</th>
+                    <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="bg-[#0B1636] divide-y divide-[#14254E]">
+                <?php foreach ($users as $user) : ?>
+                    <tr class="hover:bg-[#14254E] transition-colors">
+                        <td class="py-4 px-6">
+                            <a href="<?= route('users.show', ['id' => $user->id]) ?>" class="text-[#4A90E2] hover:text-[#2B6CE4] hover:underline">
+                                #<?= $user->id ?>
+                            </a>
+                        </td>
+                        <td class="py-4 px-6 text-white"><?= $user->name ?></td>
+                        <td class="py-4 px-6 text-white"><?= $user->email ?></td>
+                        <td class="py-4 px-6 text-white"><?= $user->cpf ?? '-' ?></td>
+                        <td class="py-4 px-6 text-white"><?= $user->phone ?? '-' ?></td>
+                        <td class="py-4 px-6">
+                            <?= $user->is_admin 
+                                ? '<span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">Sim</span>' 
+                                : '<span class="bg-gray-600 text-white px-3 py-1 rounded-full text-xs font-medium">Não</span>' 
+                            ?>
+                        </td>
+                        <td class="py-4 px-6">
+                            <?= $user->is_active 
+                                ? '<span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">Sim</span>' 
+                                : '<span class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">Não</span>' 
+                            ?>
+                        </td>
+                        <td class="py-4 px-6">
+                            <div class="flex justify-end gap-2">
+                                <a href="<?= route('users.edit', ['id' => $user->id]) ?>" class="text-[#4A90E2] hover:text-[#2B6CE4] p-2 rounded transition-colors" title="Editar">
+                                    <i class="bi bi-pencil-square text-lg"></i>
+                                </a>
+                                <form action="<?= route('users.destroy', ['id' => $user->id]) ?>" method="POST" class="m-0">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="text-red-500 hover:text-red-400 p-2 rounded transition-colors" title="Arquivar">
+                                        <i class="bi bi-archive text-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
+
+    <?php $paginator->renderPagesNavigation(); ?>
 </div>
-
-<table class="table">
-    <thead>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>CPF</th>
-        <th>Telefone</th>
-        <th>Admin</th>
-        <th>Ativo</th>
-        <th></th>
-    </thead>
-    <tbody>
-        <?php foreach ($users as $user) : ?>
-            <tr>
-                <td><a href="<?= route('users.show', ['id' => $user->id]) ?>">#<?= $user->id ?></a></td>
-                <td><?= $user->name ?></td>
-                <td><?= $user->email ?></td>
-                <td><?= $user->cpf ?? '-' ?></td>
-                <td><?= $user->phone ?? '-' ?></td>
-                <td><?= $user->is_admin ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-secondary">Não</span>' ?></td>
-                <td><?= $user->is_active ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>' ?></td>
-                <td>
-                    <div class="d-flex flex-row-reverse">
-                        <form action="<?= route('users.destroy', ['id' => $user->id]) ?>" method="POST" class="m-0">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-link"><i class="bi bi-archive"></i></button>
-                        </form>
-                        <a href="<?= route('users.edit', ['id' => $user->id]) ?>" class="btn btn-link pe-0">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
-
-<?php $paginator->renderPagesNavigation(); ?>

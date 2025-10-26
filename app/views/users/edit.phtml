@@ -1,68 +1,140 @@
-<form action="<?= route('users.update', ['id' => $user->id]) ?>" method="POST" class="<?= $user->hasErrors() ? 'was-validated' : '' ?>" novalidate>
-    <input type="hidden" name="_method" value="PUT">
+<div class="max-w-4xl mx-auto">
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">Editar Usuário</h1>
+        <p class="text-gray-400 mt-2">Atualize os dados do usuário abaixo</p>
+    </header>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="user_name" class="form-label">Nome:</label>
-            <input type="text" name="user[name]" class="form-control" id="user_name" value="<?= $user->name ?>" required>
-            <div class="invalid-feedback"><?= $user->errors('name') ? $user->errors('name') : '' ?></div>
-        </div>
+    <form action="<?= route('users.update', ['id' => $user->id]) ?>" method="POST" 
+          class="<?= $user->hasErrors() ? 'was-validated' : '' ?>" novalidate>
+        <input type="hidden" name="_method" value="PUT">
 
-        <div class="col-md-6 mb-3">
-            <label for="user_email" class="form-label">Email:</label>
-            <input type="email" name="user[email]" class="form-control" id="user_email" value="<?= $user->email ?>" required>
-            <div class="invalid-feedback"><?= $user->errors('email') ? $user->errors('email') : '' ?></div>
-        </div>
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="user_name" class="block mb-2 text-sm font-medium text-[#4A90E2]">Nome:</label>
+                <input type="text" 
+                       name="user[name]" 
+                       value="<?= $user->name ?>" 
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500" 
+                       id="user_name" 
+                       placeholder="Digite o nome completo"
+                       required>
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $user->errors('name') ? $user->errors('name') : '' ?>
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="user_cpf" class="form-label">CPF:</label>
-            <input type="text" name="user[cpf]" class="form-control" id="user_cpf" value="<?= $user->cpf ?>">
-            <div class="invalid-feedback"><?= $user->errors('cpf') ? $user->errors('cpf') : '' ?></div>
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <label for="user_phone" class="form-label">Telefone:</label>
-            <input type="text" name="user[phone]" class="form-control" id="user_phone" value="<?= $user->phone ?>">
-            <div class="invalid-feedback"><?= $user->errors('phone') ? $user->errors('phone') : '' ?></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="user_password" class="form-label">Nova Senha (deixe em branco para não alterar):</label>
-            <input type="password" name="user[password]" class="form-control" id="user_password">
-            <div class="invalid-feedback"><?= $user->errors('password') ? $user->errors('password') : '' ?></div>
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <label for="user_password_confirmation" class="form-label">Confirmação de Nova Senha:</label>
-            <input type="password" name="user[password_confirmation]" class="form-control" id="user_password_confirmation">
-            <div class="invalid-feedback"><?= $user->errors('password_confirmation') ? $user->errors('password_confirmation') : '' ?></div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="user[is_admin]" value="1" id="user_is_admin" <?= $user->is_admin ? 'checked' : '' ?>>
-                <label class="form-check-label" for="user_is_admin">
-                    Administrador
-                </label>
+            <div>
+                <label for="user_email" class="block mb-2 text-sm font-medium text-[#4A90E2]">Email:</label>
+                <input type="email" 
+                       name="user[email]" 
+                       value="<?= $user->email ?>" 
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500" 
+                       id="user_email" 
+                       placeholder="exemplo@email.com"
+                       required>
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $user->errors('email') ? $user->errors('email') : '' ?>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-6 mb-3">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="user[is_active]" value="1" id="user_is_active" <?= $user->is_active ? 'checked' : '' ?>>
-                <label class="form-check-label" for="user_is_active">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="user_cpf" class="block mb-2 text-sm font-medium text-[#4A90E2]">CPF:</label>
+                <input type="text" 
+                       name="user[cpf]" 
+                       value="<?= $user->cpf ?>" 
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500" 
+                       id="user_cpf" 
+                       placeholder="000.000.000-00">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $user->errors('cpf') ? $user->errors('cpf') : '' ?>
+                </div>
+            </div>
+
+            <div>
+                <label for="user_phone" class="block mb-2 text-sm font-medium text-[#4A90E2]">Telefone:</label>
+                <input type="text" 
+                       name="user[phone]" 
+                       value="<?= $user->phone ?>" 
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500" 
+                       id="user_phone" 
+                       placeholder="(00) 00000-0000">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $user->errors('phone') ? $user->errors('phone') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="user_password" class="block mb-2 text-sm font-medium text-[#4A90E2]">
+                    Nova Senha 
+                    <span class="text-gray-400 text-xs font-normal">(deixe em branco para não alterar)</span>
+                </label>
+                <input type="password" 
+                       name="user[password]" 
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500" 
+                       id="user_password" 
+                       placeholder="Mínimo 6 caracteres">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $user->errors('password') ? $user->errors('password') : '' ?>
+                </div>
+            </div>
+
+            <div>
+                <label for="user_password_confirmation" class="block mb-2 text-sm font-medium text-[#4A90E2]">Confirmação de Nova Senha:</label>
+                <input type="password" 
+                       name="user[password_confirmation]" 
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500" 
+                       id="user_password_confirmation" 
+                       placeholder="Digite a senha novamente">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $user->errors('password_confirmation') ? $user->errors('password_confirmation') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="flex items-center">
+                <div class="flex items-center h-5">
+                    <input type="checkbox" 
+                           name="user[is_admin]" 
+                           value="1" 
+                           id="user_is_admin" 
+                           class="w-4 h-4 text-[#2B6CE4] bg-[#14254E] border-[#2B6CE4] rounded focus:ring-[#2B6CE4] focus:ring-2"
+                           <?= $user->is_admin ? 'checked' : '' ?>>
+                </div>
+                <label for="user_is_admin" class="ml-2 text-sm font-medium text-white">
+                    Administrador
+                </label>
+            </div>
+
+            <div class="flex items-center">
+                <div class="flex items-center h-5">
+                    <input type="checkbox" 
+                           name="user[is_active]" 
+                           value="1" 
+                           id="user_is_active" 
+                           class="w-4 h-4 text-[#2B6CE4] bg-[#14254E] border-[#2B6CE4] rounded focus:ring-[#2B6CE4] focus:ring-2"
+                           <?= $user->is_active ? 'checked' : '' ?>>
+                </div>
+                <label for="user_is_active" class="ml-2 text-sm font-medium text-white">
                     Ativo
                 </label>
             </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-primary">Atualizar</button>
-    <a href="<?= route('users.index') ?>" class="btn btn-secondary">Cancelar</a>
-</form>
+        <div class="flex flex-col sm:flex-row gap-4 justify-end">
+            <a href="<?= route('users.index') ?>" 
+               class="px-6 py-3 border border-[#2B6CE4] text-[#2B6CE4] rounded-md hover:bg-[#2B6CE4] hover:text-white transition-colors font-medium text-center">
+                Cancelar
+            </a>
+            <button type="submit" 
+                    class="px-6 py-3 bg-[#2B6CE4] text-white rounded-md hover:bg-[#1F54C7] transition-colors font-medium">
+                <i class="bi bi-check-lg mr-2"></i>
+                Atualizar Usuário
+            </button>
+        </div>
+    </form>
+</div>
