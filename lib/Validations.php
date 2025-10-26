@@ -83,7 +83,7 @@ class Validations
         $email = $obj->$attribute;
 
         if ($email === null || $email === '') {
-            return true; // notEmpty já valida isso
+            return true;
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -99,10 +99,9 @@ class Validations
         $cpf = $obj->$attribute;
 
         if ($cpf === null || $cpf === '') {
-            return true; // notEmpty já valida isso
+            return true;
         }
 
-        // Remove caracteres não numéricos
         $cpf = preg_replace('/[^0-9]/', '', $cpf);
 
         if (strlen($cpf) !== 11) {
@@ -110,7 +109,6 @@ class Validations
             return false;
         }
 
-        // Verifica se todos os dígitos são iguais (CPF inválido)
         if (preg_match('/^(\d)\1{10}$/', $cpf)) {
             $obj->addError($attribute, 'não pode ter todos os dígitos iguais');
             return false;
@@ -127,10 +125,8 @@ class Validations
             return true; // Telefone é opcional
         }
 
-        // Remove caracteres não numéricos
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
-        // Aceita telefones com 10 ou 11 dígitos (fixo ou celular)
         if (strlen($phone) < 10 || strlen($phone) > 11) {
             $obj->addError($attribute, 'deve conter 10 ou 11 dígitos');
             return false;
