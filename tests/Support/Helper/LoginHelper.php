@@ -15,7 +15,9 @@ class LoginHelper extends Module
         $page->amOnPage('/login');
         $page->fillField('user[email]', $username);
         $page->fillField('user[password]', $password);
-        $page->click('Entrar');
+        $page->click('Enter');
+        $page->wait(3); 
+        $page->dontSee('Você deve estar logado para acessar essa página'); 
     }
 
     public function logout(): void
