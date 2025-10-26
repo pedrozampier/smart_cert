@@ -78,7 +78,6 @@ class UsersController extends Controller
         $user->is_active = isset($params['is_active']) ? (bool)$params['is_active'] : $user->is_active;
         $user->is_admin = isset($params['is_admin']) ? (bool)$params['is_admin'] : $user->is_admin;
 
-        // Só atualiza a senha se foi fornecida
         if (!empty($params['password'])) {
             $user->password = $params['password'];
             $user->password_confirmation = $params['password_confirmation'] ?? '';

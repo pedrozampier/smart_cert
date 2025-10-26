@@ -26,9 +26,13 @@ class User extends Model
         Validations::notEmpty('email', $this);
         Validations::notEmpty('cpf', $this);
 
+        Validations::emailFormat('email', $this);
+        Validations::cpfFormat('cpf', $this);
+        Validations::phoneFormat('phone', $this);
+
         Validations::uniqueness('email', $this);
 
-        if ($this->newRecord()) {
+        if ($this->newRecord() || $this->password !== null) {
             Validations::passwordConfirmation($this);
         }
     }
@@ -66,8 +70,8 @@ class User extends Model
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->encrypted_password = password_hash($data['encrypted_password'], PASSWORD_DEFAULT);
-        $user->is_admin = $data['is_admin'] ?? false;
-        $user->is_active = $data['is_active'] ?? true;
+        $user->is_admin = isset($data['is_admin']) ? (int)(bool)$data['is_admin'] : 0;
+        $user->is_active = isset($data['is_active']) ? (int)(bool)$data['is_active'] : 1;
         $user->phone = $data['phone'] ?? null;
         $user->cpf = $data['cpf'] ?? null;
 
