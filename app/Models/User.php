@@ -62,20 +62,4 @@ class User extends Model
             $this->encrypted_password = password_hash($value, PASSWORD_DEFAULT);
         }
     }
-
-    public static function create(array $data): User
-    {
-        $user = new self();
-        $user->created_at = date('Y-m-d H:i:s');
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->encrypted_password = password_hash($data['encrypted_password'], PASSWORD_DEFAULT);
-        $user->is_admin = isset($data['is_admin']) ? (int)(bool)$data['is_admin'] : 0;
-        $user->is_active = isset($data['is_active']) ? (int)(bool)$data['is_active'] : 1;
-        $user->phone = $data['phone'] ?? null;
-        $user->cpf = $data['cpf'] ?? null;
-
-        $user->save();
-        return $user;
-    }
 }
