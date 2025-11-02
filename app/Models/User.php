@@ -26,9 +26,13 @@ class User extends Model
         Validations::notEmpty('email', $this);
         Validations::notEmpty('cpf', $this);
 
+        Validations::emailFormat('email', $this);
+        Validations::cpfFormat('cpf', $this);
+        Validations::phoneFormat('phone', $this);
+
         Validations::uniqueness('email', $this);
 
-        if ($this->newRecord()) {
+        if ($this->newRecord() || $this->password !== null) {
             Validations::passwordConfirmation($this);
         }
     }
@@ -57,21 +61,5 @@ class User extends Model
         ) {
             $this->encrypted_password = password_hash($value, PASSWORD_DEFAULT);
         }
-    }
-
-    public static function create(array $data): User
-    {
-        $user = new self();
-        $user->created_at = date('Y-m-d H:i:s');
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->encrypted_password = password_hash($data['encrypted_password'], PASSWORD_DEFAULT);
-        $user->is_admin = $data['is_admin'] ?? false;
-        $user->is_active = $data['is_active'] ?? true;
-        $user->phone = $data['phone'] ?? null;
-        $user->cpf = $data['cpf'] ?? null;
-
-        $user->save();
-        return $user;
     }
 }

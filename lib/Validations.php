@@ -77,4 +77,61 @@ class Validations
 
         return true;
     }
+
+    public static function emailFormat($attribute, $obj)
+    {
+        $email = $obj->$attribute;
+
+        if ($email === null || $email === '') {
+            return true;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $obj->addError($attribute, 'deve ter um formato válido (exemplo@dominio.com)');
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function cpfFormat($attribute, $obj)
+    {
+        $cpf = $obj->$attribute;
+
+        if ($cpf === null || $cpf === '') {
+            return true;
+        }
+
+        $cpf = preg_replace('/[^0-9]/', '', $cpf);
+
+        if (strlen($cpf) !== 11) {
+            $obj->addError($attribute, 'deve conter exatamente 11 dígitos');
+            return false;
+        }
+
+        if (preg_match('/^(\d)\1{10}$/', $cpf)) {
+            $obj->addError($attribute, 'não pode ter todos os dígitos iguais');
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function phoneFormat($attribute, $obj)
+    {
+        $phone = $obj->$attribute;
+
+        if ($phone === null || $phone === '') {
+            return true; // Telefone é opcional
+        }
+
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+
+        if (strlen($phone) < 10 || strlen($phone) > 11) {
+            $obj->addError($attribute, 'deve conter 10 ou 11 dígitos');
+            return false;
+        }
+
+        return true;
+    }
 }

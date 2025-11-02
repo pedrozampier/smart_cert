@@ -7,9 +7,12 @@ use Tests\Support\AcceptanceTester;
 
 class HomeIndexCest extends BaseAcceptanceCest
 {
-    public function seeHomePage(AcceptanceTester $page): void
+    public function verPaginaInicial(AcceptanceTester $page): void
     {
         $page->amOnPage('/');
-        $page->see('Home Page', '//h1');
+        $page->seeInTitle('SmartCert - Login');
+        $page->see('Email');
+        $page->see('Senha');
+        $page->seeElement('//button[@type="submit" and contains(text(), "Enter")]');
     }
 }
