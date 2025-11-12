@@ -24,14 +24,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
         Route::put('/users/{id}', [UsersController::class, 'update'])->name('users.update');
         Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
-
-        Route::get('/logos/new', [LogosController::class, 'new'])->name('logos.new');
-        Route::post('/logos', [LogosController::class, 'create'])->name('logos.create');
-        Route::get('/logos', [LogosController::class, 'index'])->name('logos.index');
-        Route::get('/logos/page/{page}', [LogosController::class, 'index'])->name('logos.paginate');
-        Route::get('/logos/{id}', [LogosController::class, 'show'])->name('logos.show');
-        Route::delete('/logos/{id}', [LogosController::class, 'destroy'])->name('logos.destroy');
     });
+
+    Route::get('/logos/new', [LogosController::class, 'new'])->name('logos.new');
+    Route::post('/logos', [LogosController::class, 'create'])->name('logos.create');
+    Route::get('/logos', [LogosController::class, 'index'])->name('logos.index');
+    Route::get('/logos/page/{page}', [LogosController::class, 'index'])->name('logos.paginate');
+    Route::get('/logos/{id}', [LogosController::class, 'show'])->name('logos.show');
+    Route::delete('/logos/{id}', [LogosController::class, 'destroy'])->name('logos.destroy');
 
     Route::get('/user/dashboard', [HomeController::class, 'userDashboard'])->name('user.dashboard');
 });
