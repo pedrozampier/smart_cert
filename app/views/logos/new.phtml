@@ -1,0 +1,77 @@
+<div class="max-w-4xl mx-auto">
+
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">
+            Cadastrar Logo
+        </h1>
+        <p class="text-gray-400 mt-2">Faça o upload de um logo para usar nos certificados</p>
+    </header>
+
+    <form action="<?= route('logos.create') ?>" method="POST" enctype="multipart/form-data"
+          class="<?= $logo->hasErrors() ? 'was-validated' : '' ?>" novalidate>
+
+        <div class="mb-6">
+            <label for="logo" class="block mb-2 text-sm font-medium text-[#4A90E2]">Arquivo do Logo:</label>
+
+            <div class="flex items-center justify-center w-full">
+                <label for="logo" class="flex flex-col items-center justify-center w-full h-64 border-2 border-[#2B6CE4] border-dashed rounded-lg cursor-pointer bg-[#14254E] hover:bg-[#1a2a4e] transition-colors">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <i class="bi bi-cloud-upload text-[#4A90E2] text-5xl mb-3"></i>
+                        <p class="mb-2 text-sm text-gray-400">
+                            <span class="font-semibold text-[#4A90E2]">Clique para fazer upload</span> ou arraste e solte
+                        </p>
+                        <p class="text-xs text-gray-500">PNG, JPG, JPEG, GIF ou WEBP (MAX. 5MB)</p>
+                        <p class="text-xs text-gray-500 mt-1" id="file-name"></p>
+                    </div>
+                    <input id="logo" name="logo" type="file" class="hidden" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" required />
+                </label>
+            </div>
+
+            <div class="text-red-400 text-sm mt-1">
+                <?= $logo->errors('logo') ? $logo->errors('logo') : '' ?>
+            </div>
+        </div>
+
+        <div class="mb-6" id="preview-container" style="display: none;">
+            <label class="block mb-2 text-sm font-medium text-[#4A90E2]">Preview:</label>
+            <div class="flex justify-center items-center bg-[#14254E] border border-[#2B6CE4] rounded-lg p-4">
+                <img id="preview-image" src="" alt="Preview" class="max-h-64 object-contain">
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-end">
+            <a href="<?= route('logos.index') ?>"
+               class="px-6 py-3 border border-[#2B6CE4] text-[#2B6CE4] rounded-md hover:bg-[#2B6CE4] hover:text-white transition-colors font-medium text-center">
+                Cancelar
+            </a>
+            <button type="submit"
+                    class="px-6 py-3 bg-[#2B6CE4] text-white rounded-md hover:bg-[#1F54C7] transition-colors font-medium">
+                Fazer Upload
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const fileInput = document.getElementById('logo');
+    const fileName = document.getElementById('file-name');
+    const previewContainer = document.getElementById('preview-container');
+    const previewImage = document.getElementById('preview-image');
+
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            const file = e.target.files[0];
+            fileName.textContent = 'Arquivo selecionado: ' + file.name;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                previewImage.src = event.target.result;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            fileName.textContent = '';
+            previewContainer.style.display = 'none';
+        }
+    });
+</script>
