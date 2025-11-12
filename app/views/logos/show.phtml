@@ -1,0 +1,126 @@
+<div class="max-w-4xl mx-auto">
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">Detalhes do Logo</h1>
+        <p class="text-gray-400 mt-2">Informações completas do logo</p>
+    </header>
+
+    <div class="bg-[#14254E] rounded-lg border border-[#2B6CE4] overflow-hidden">
+        <div class="p-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-white"><?= $logo->name ?></h2>
+                <div class="w-16 h-1 bg-[#2B6CE4] mt-2 rounded-full"></div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-[#4A90E2] mb-3">Preview do Logo:</label>
+                <div class="flex justify-center items-center bg-white rounded-lg p-8 border border-[#2B6CE4]">
+                    <img src="<?= $logo->file_path ?>" alt="<?= $logo->name ?>" class="max-h-96 object-contain">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">ID:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            #<?= $logo->id ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Nome:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->name ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Arquivo Original:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->original_name ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Extensão:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= strtoupper($logo->file_extension) ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Tamanho do Arquivo:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->file_size ? number_format($logo->file_size / 1024, 2) . ' KB' : '-' ?>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Largura:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->width ? $logo->width . ' px' : '-' ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Altura:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->height ? $logo->height . ' px' : '-' ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Dimensões:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->width && $logo->height ? "{$logo->width} x {$logo->height} px" : '-' ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Data de Upload:</label>
+                        <p class="text-white bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->uploaded_at ? date('d/m/Y H:i', strtotime($logo->uploaded_at)) : '-' ?>
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-[#4A90E2] mb-1">Status:</label>
+                        <div class="bg-[#0B1636] px-4 py-3 rounded-md border border-[#1a2a4e]">
+                            <?= $logo->is_active
+                                ? '<span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">Ativo</span>'
+                                : '<span class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">Inativo</span>'
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-[#2B6CE4] my-6"></div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-between">
+                <form action="<?= route('logos.destroy', ['id' => $logo->id]) ?>" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este logo?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit"
+                            class="px-6 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors font-medium">
+                        <i class="bi bi-trash mr-2"></i>
+                        Remover Logo
+                    </button>
+                </form>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="<?= route('logos.index') ?>"
+                       class="px-6 py-3 border border-[#2B6CE4] text-[#2B6CE4] rounded-md hover:bg-[#2B6CE4] hover:text-white transition-colors font-medium text-center">
+                        Voltar
+                    </a>
+                    <a href="<?= $logo->file_path ?>" download
+                       class="px-6 py-3 bg-[#2B6CE4] text-white rounded-md hover:bg-[#1F54C7] transition-colors font-medium text-center">
+                        <i class="bi bi-download mr-2"></i>
+                        Baixar Logo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
