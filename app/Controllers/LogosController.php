@@ -12,15 +12,14 @@ class LogosController extends Controller
 {
     public function index(Request $request): void
     {
-        $paginator = Logo::paginate(page: $request->getParam('page', 1));
-        $logos = $paginator->registers();
+        $logos = Logo::where(['user_id' => $this->current_user->id]);
 
         $title = 'Logos Cadastrados';
 
         if ($request->acceptJson()) {
-            $this->renderJson('logos/index', compact('paginator', 'logos', 'title'));
+            $this->renderJson('logos/index', compact('logos', 'title'));
         } else {
-            $this->render('logos/index', compact('paginator', 'logos', 'title'));
+            $this->render('logos/index', compact('logos', 'title'));
         }
     }
 
@@ -29,6 +28,12 @@ class LogosController extends Controller
         $params = $request->getParams();
 
         $logo = Logo::findById($params['id']);
+
+        if (!$logo || $logo->user_id !== $this->current_user->id) {
+            FlashMessage::danger('Logo não encontrado ou você não tem permissão para visualizá-lo!');
+            $this->redirectTo(route('logos.index'));
+            return;
+        }
 
         $title = "Visualização do Logo #{$logo->id}";
         $this->render('logos/show', compact('logo', 'title'));
@@ -78,6 +83,12 @@ class LogosController extends Controller
         $params = $request->getParams();
 
         $logo = Logo::findById($params['id']);
+
+        if (!$logo || $logo->user_id !== $this->current_user->id) {
+            FlashMessage::danger('Logo não encontrado ou você não tem permissão para removê-lo!');
+            $this->redirectTo(route('logos.index'));
+            return;
+        }
 
         $logoUpload = new LogoUpload($logo->user_id);
 
