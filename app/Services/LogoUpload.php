@@ -140,6 +140,9 @@ class LogoUpload
 
     private function isValidImage(Logo $logo): bool
     {
+        // Valida o MIME type real do arquivo
+        $this->validateMimeType($logo);
+
         if (isset($this->validations['extension'])) {
             $this->validateImageExtension($logo);
         }
@@ -148,7 +151,39 @@ class LogoUpload
             $this->validateImageSize($logo);
         }
 
+        // Valida se é realmente uma imagem válida
+        $this->validateImageContent($logo);
+
         return $logo->errors('logo') === null;
+    }
+
+    private function validateMimeType(Logo $logo): void
+    {
+        $allowed_mime_types = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/gif',
+            'image/webp'
+        ];
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = finfo_file($finfo, $this->getTmpFilePath());
+        finfo_close($finfo);
+
+        if (!in_array($mime_type, $allowed_mime_types)) {
+            $logo->addError('logo', 'Tipo de arquivo inválido. Apenas imagens são permitidas.');
+        }
+    }
+
+    private function validateImageContent(Logo $logo): void
+    {
+        // Tenta carregar a imagem para verificar se é válida
+        $image_info = @getimagesize($this->getTmpFilePath());
+        
+        if ($image_info === false) {
+            $logo->addError('logo', 'O arquivo não é uma imagem válida.');
+        }
     }
 
     private function validateImageExtension(Logo $logo): void
