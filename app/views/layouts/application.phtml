@@ -22,12 +22,38 @@
     </head>
 
     <body class="bg-[#0B1636] text-white min-h-screen flex flex-col">
-        <header class="flex justify-between items-center px-6 py-4 border-b border-[#14254E]">
-            <div class="font-semibold text-lg text-[#4A90E2]">SmartCert</div>
-            <nav class="space-x-6 text-white text-base font-normal">
-                <a href="#" class="hover:underline hover:text-[#4A90E2] transition-colors">Perfil</a>
-                <a href="logout" class="hover:underline hover:text-[#4A90E2] transition-colors">Logout</a>
-            </nav>
+        <header class="bg-[#0B1636] border-b border-[#14254E] sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-6 py-4">
+                <div class="flex justify-between items-center">
+                    <a href="/user/dashboard" class="font-bold text-2xl text-[#4A90E2] hover:text-[#2B6CE4] transition-colors">
+                        SmartCert
+                    </a>
+                    
+                    <nav class="flex items-center space-x-8">
+                        <a href="<?= route('user.dashboard') ?>" class="text-white hover:text-[#4A90E2] transition-colors font-medium">
+                            <i class="bi bi-house-door mr-1"></i> Dashboard
+                        </a>
+                        <a href="<?= route('events.index') ?>" class="text-white hover:text-[#4A90E2] transition-colors font-medium">
+                            <i class="bi bi-calendar-event mr-1"></i> Meus Eventos
+                        </a>
+                        <a href="<?= route('event.participants') ?>" class="text-white hover:text-[#4A90E2] transition-colors font-medium">
+                            <i class="bi bi-list-check mr-1"></i> Todos Eventos
+                        </a>
+                        <a href="<?= route('event.participants.my-events') ?>" class="text-white hover:text-[#4A90E2] transition-colors font-medium">
+                            <i class="bi bi-person-check mr-1"></i> Minhas Inscrições
+                        </a>
+                        <a href="<?= route('logos.index') ?>" class="text-white hover:text-[#4A90E2] transition-colors font-medium">
+                            <i class="bi bi-image mr-1"></i> Logos
+                        </a>
+                        
+                        <div class="border-l border-[#14254E] pl-6 ml-2">
+                            <a href="<?= route('users.logout') ?>" class="text-red-400 hover:text-red-300 transition-colors font-medium">
+                                <i class="bi bi-box-arrow-right mr-1"></i> Sair
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
         </header>
 
         <main class="flex-grow p-6">

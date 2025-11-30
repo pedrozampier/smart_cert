@@ -5,6 +5,7 @@ namespace App\Models;
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
 use Core\Database\ActiveRecord\BelongsTo;
+use Core\Database\ActiveRecord\BelongsToMany;
 
 /**
  * @property int $id
@@ -24,6 +25,7 @@ use Core\Database\ActiveRecord\BelongsTo;
  * @property Logo $logo
  * @property User $creator
  * @property User $owner
+ * @property User[] $participants
  */
 class Event extends Model
 {
@@ -64,5 +66,15 @@ class Event extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function participants(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'event_participant', 'event_id', 'participant_id');
+    }
+
+    public function hasParticipant(User $user): bool
+    {
+        return EventParticipant::exists(['event_id' => $this->id, 'participant_id' => $user->id]);
     }
 }

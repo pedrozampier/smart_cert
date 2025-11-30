@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
+use Core\Database\ActiveRecord\BelongsToMany;
+use Core\Database\ActiveRecord\HasMany;
 
 /**
  * @property int $id
@@ -11,6 +13,8 @@ use Core\Database\ActiveRecord\Model;
  * @property string $email
  * @property string $encrypted_password
  * @property string $avatar_name
+ * @property Event[] $created_events
+ * @property Event[] $participating_events
  */
 class User extends Model
 {
@@ -19,6 +23,16 @@ class User extends Model
 
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
+
+    public function createdEvents(): HasMany
+    {
+        return $this->hasMany(Event::class, 'creator_id');
+    }
+
+    public function participatingEvents(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class, 'event_participant', 'participant_id', 'event_id');
+    }
 
     public function validates(): void
     {

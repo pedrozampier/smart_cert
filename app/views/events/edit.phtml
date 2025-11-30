@@ -1,0 +1,153 @@
+<div class="max-w-4xl mx-auto">
+
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">
+            <?= $title ?>
+        </h1>
+        <p class="text-gray-400 mt-2">Atualize os dados do evento abaixo</p>
+    </header>
+
+    <form action="<?= route('events.update', ['id' => $event->id]) ?>" method="POST"
+          class="<?= $event->hasErrors() ? 'was-validated' : '' ?>" novalidate>
+        <input type="hidden" name="_method" value="PUT">
+
+        <div class="grid grid-cols-1 gap-6 mb-6">
+            <div>
+                <label for="event_name" class="block mb-2 text-sm font-medium text-[#4A90E2]">Nome do Evento: *</label>
+                <input type="text"
+                       value="<?= $event->name ?>"
+                       name="event[name]"
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                       id="event_name"
+                       placeholder="Digite o nome do evento"
+                       required>
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('name') ? $event->errors('name') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 mb-6">
+            <div>
+                <label for="event_description" class="block mb-2 text-sm font-medium text-[#4A90E2]">Descrição:</label>
+                <textarea
+                    name="event[description]"
+                    class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                    id="event_description"
+                    rows="4"
+                    placeholder="Descreva o evento"><?= $event->description ?></textarea>
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('description') ? $event->errors('description') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="event_event_type" class="block mb-2 text-sm font-medium text-[#4A90E2]">Tipo de Evento:</label>
+                <input type="text"
+                       value="<?= $event->event_type ?>"
+                       name="event[event_type]"
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                       id="event_event_type"
+                       placeholder="Ex: Workshop, Palestra, Curso">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('event_type') ? $event->errors('event_type') : '' ?>
+                </div>
+            </div>
+
+            <div>
+                <label for="event_workload_hours" class="block mb-2 text-sm font-medium text-[#4A90E2]">Carga Horária (horas):</label>
+                <input type="number"
+                       value="<?= $event->workload_hours ?>"
+                       name="event[workload_hours]"
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                       id="event_workload_hours"
+                       placeholder="Ex: 8"
+                       min="0">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('workload_hours') ? $event->errors('workload_hours') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="event_start_date" class="block mb-2 text-sm font-medium text-[#4A90E2]">Data de Início: *</label>
+                <input type="date"
+                       value="<?= $event->start_date ?>"
+                       name="event[start_date]"
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                       id="event_start_date"
+                       required>
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('start_date') ? $event->errors('start_date') : '' ?>
+                </div>
+            </div>
+
+            <div>
+                <label for="event_end_date" class="block mb-2 text-sm font-medium text-[#4A90E2]">Data de Término:</label>
+                <input type="date"
+                       value="<?= $event->end_date ?>"
+                       name="event[end_date]"
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                       id="event_end_date">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('end_date') ? $event->errors('end_date') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 mb-6">
+            <div>
+                <label for="event_event_location" class="block mb-2 text-sm font-medium text-[#4A90E2]">Local do Evento:</label>
+                <input type="text"
+                       value="<?= $event->event_location ?>"
+                       name="event[event_location]"
+                       class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3 placeholder:text-gray-500"
+                       id="event_event_location"
+                       placeholder="Ex: Auditório Principal, Online">
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('event_location') ? $event->errors('event_location') : '' ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 mb-8">
+            <div>
+                <label for="event_logo_id" class="block mb-2 text-sm font-medium text-[#4A90E2]">Logo do Evento:</label>
+                <select
+                    name="event[logo_id]"
+                    class="w-full rounded-md bg-[#14254E] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3"
+                    id="event_logo_id">
+                    <option value="">Selecione um logo (opcional)</option>
+                    <?php foreach ($logos as $logo) : ?>
+                        <option value="<?= $logo->id ?>" <?= $event->logo_id == $logo->id ? 'selected' : '' ?>>
+                            <?= $logo->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="text-red-400 text-sm mt-1">
+                    <?= $event->errors('logo_id') ? $event->errors('logo_id') : '' ?>
+                </div>
+                <?php if (empty($logos)) : ?>
+                    <p class="text-gray-400 text-xs mt-2">
+                        Nenhum logo disponível.
+                        <a href="<?= route('logos.new') ?>" class="text-[#4A90E2] hover:underline">Cadastre um logo aqui</a>
+                    </p>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-end">
+            <a href="<?= route('events.index') ?>"
+               class="px-6 py-3 border border-[#2B6CE4] text-[#2B6CE4] rounded-md hover:bg-[#2B6CE4] hover:text-white transition-colors font-medium text-center">
+                Cancelar
+            </a>
+            <button type="submit"
+                    class="px-6 py-3 bg-[#2B6CE4] text-white rounded-md hover:bg-[#1F54C7] transition-colors font-medium">
+                Atualizar Evento
+            </button>
+        </div>
+    </form>
+</div>
