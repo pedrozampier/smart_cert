@@ -1,5 +1,6 @@
 SET foreign_key_checks = 0;
 
+DROP TABLE IF EXISTS event_participant;
 DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS logos;
 DROP TABLE IF EXISTS users;
@@ -57,6 +58,24 @@ CREATE TABLE events (
     INDEX idx_owner (owner_id),
     INDEX idx_start_date (start_date),
     INDEX idx_is_active (is_active)
+);
+
+CREATE TABLE event_participant (
+    id INTEGER AUTO_INCREMENT PRIMARY KEY,
+    event_id INTEGER NOT NULL,
+    participant_id INTEGER NOT NULL,
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    participation_status ENUM('registered', 'confirmed', 'attended', 'absent', 'cancelled') DEFAULT 'registered',
+    certificate_description TEXT,
+    certificate_generated BOOLEAN DEFAULT 0,
+    certificate_generation_date DATETIME,
+    certificate_code VARCHAR(100),
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+    FOREIGN KEY (participant_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_event_participant (event_id, participant_id),
+    INDEX idx_event (event_id),
+    INDEX idx_participant (participant_id),
+    INDEX idx_status (participation_status)
 );
 
 SET foreign_key_checks = 1;
