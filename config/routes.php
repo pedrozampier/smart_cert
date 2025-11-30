@@ -3,6 +3,8 @@
 use App\Controllers\HomeController;
 use App\Controllers\LogosController;
 use App\Controllers\UsersController;
+use App\Controllers\EventsController;
+use App\Controllers\EventParticipantsController;
 use Core\Router\Route;
 use App\Controllers\AuthenticationsController;
 
@@ -32,6 +34,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/logos/page/{page}', [LogosController::class, 'index'])->name('logos.paginate');
     Route::get('/logos/{id}', [LogosController::class, 'show'])->name('logos.show');
     Route::delete('/logos/{id}', [LogosController::class, 'destroy'])->name('logos.destroy');
+
+    Route::get('/events/new', [EventsController::class, 'new'])->name('events.new');
+    Route::get('/events/all', [EventParticipantsController::class, 'index'])
+        ->name('event.participants');
+    Route::get('/events/all/page/{page}', [EventParticipantsController::class, 'index'])
+        ->name('event.participants.paginate');
+    Route::get('/events/my-events', [EventParticipantsController::class, 'myEvents'])
+        ->name('event.participants.my-events');
+
+    Route::post('/events', [EventsController::class, 'create'])->name('events.create');
+    Route::get('/events', [EventsController::class, 'index'])->name('events.index');
+    Route::get('/events/page/{page}', [EventsController::class, 'index'])->name('events.paginate');
+    Route::get('/events/{id}', [EventsController::class, 'show'])->name('events.show');
+    Route::get('/events/{id}/edit', [EventsController::class, 'edit'])->name('events.edit');
+    Route::put('/events/{id}', [EventsController::class, 'update'])->name('events.update');
+    Route::delete('/events/{id}', [EventsController::class, 'destroy'])->name('events.destroy');
+
+    Route::get('/events/{id}/participants', [EventParticipantsController::class, 'manage'])
+        ->name('event.participants.manage');
+    Route::post('/events/{event_id}/participants/{participant_id}/add', [EventParticipantsController::class, 'addParticipant'])
+        ->name('event.participants.add');
+    Route::post('/events/{event_id}/participants/{participant_id}/remove', [EventParticipantsController::class, 'removeParticipant'])
+        ->name('event.participants.remove');
 
     Route::get('/user/dashboard', [HomeController::class, 'userDashboard'])->name('user.dashboard');
 });

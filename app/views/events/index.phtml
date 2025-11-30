@@ -1,0 +1,93 @@
+<div class="max-w-7xl mx-auto">
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">
+            <?= $title ?>
+        </h1>
+    </header>
+
+    <div class="flex justify-end mb-8">
+        <a href="<?= route('events.new') ?>" class="bg-[#2B6CE4] text-white px-6 py-3 rounded-md hover:bg-[#1F54C7] transition-colors font-medium inline-flex items-center gap-2">
+            <i class="bi bi-plus"></i>
+            Novo Evento
+        </a>
+    </div>
+
+    <?php if (empty($events)) : ?>
+        <div class="bg-[#14254E] border border-[#2B6CE4] rounded-lg p-8 text-center">
+            <i class="bi bi-calendar-x text-[#4A90E2] text-5xl mb-4"></i>
+            <p class="text-white text-lg mb-4">Você ainda não criou nenhum evento.</p>
+            <a href="<?= route('events.new') ?>" class="bg-[#2B6CE4] text-white px-6 py-3 rounded-md hover:bg-[#1F54C7] transition-colors font-medium inline-flex items-center gap-2">
+                <i class="bi bi-plus"></i>
+                Criar Primeiro Evento
+            </a>
+        </div>
+    <?php else : ?>
+        <div class="rounded-lg overflow-hidden border border-[#2B6CE4]">
+            <table class="w-full">
+                <thead class="bg-[#14254E]">
+                    <tr>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">ID</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Nome</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Tipo</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Data Início</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Carga Horária</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Participantes</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Status</th>
+                        <th class="text-left py-4 px-6 text-[#4A90E2] font-semibold text-sm">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-[#0B1636] divide-y divide-[#14254E]">
+                    <?php foreach ($events as $event) : ?>
+                        <tr class="hover:bg-[#14254E] transition-colors">
+                            <td class="py-4 px-6">
+                                <a href="<?= route('events.show', ['id' => $event->id]) ?>" class="text-[#4A90E2] hover:text-[#2B6CE4] hover:underline">
+                                    #<?= $event->id ?>
+                                </a>
+                            </td>
+                            <td class="py-4 px-6 text-white font-medium"><?= $event->name ?></td>
+                            <td class="py-4 px-6 text-white"><?= $event->event_type ?? '-' ?></td>
+                            <td class="py-4 px-6 text-white">
+                                <?= $event->start_date ? date('d/m/Y', strtotime($event->start_date)) : '-' ?>
+                            </td>
+                            <td class="py-4 px-6 text-white">
+                                <?= $event->workload_hours ? $event->workload_hours . 'h' : '-' ?>
+                            </td>
+                            <td class="py-4 px-6 text-white">
+                                <?= $event->participants()->count() ?>
+                            </td>
+                            <td class="py-4 px-6">
+                                <?= $event->is_active
+                                    ? '<span class="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-medium">Ativo</span>'
+                                    : '<span class="bg-red-600 text-white px-3 py-1 rounded-full text-xs font-medium">Inativo</span>'
+                                ?>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex justify-end gap-2">
+                                    <a href="<?= route('events.show', ['id' => $event->id]) ?>" class="text-[#4A90E2] hover:text-[#2B6CE4] p-2 rounded transition-colors" title="Visualizar">
+                                        <i class="bi bi-eye text-lg"></i>
+                                    </a>
+                                    <a href="<?= route('event.participants.manage', ['id' => $event->id]) ?>" class="text-green-500 hover:text-green-400 p-2 rounded transition-colors" title="Gerenciar Participantes">
+                                        <i class="bi bi-people text-lg"></i>
+                                    </a>
+                                    <a href="<?= route('events.edit', ['id' => $event->id]) ?>" class="text-[#4A90E2] hover:text-[#2B6CE4] p-2 rounded transition-colors" title="Editar">
+                                        <i class="bi bi-pencil-square text-lg"></i>
+                                    </a>
+                                    <form action="<?= route('events.destroy', ['id' => $event->id]) ?>" method="POST" class="m-0" onsubmit="return confirm('Tem certeza que deseja remover este evento?')">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="text-red-500 hover:text-red-400 p-2 rounded transition-colors" title="Remover">
+                                            <i class="bi bi-trash text-lg"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-6">
+            <?php $paginator->renderPagesNavigation(); ?>
+        </div>
+    <?php endif; ?>
+</div>

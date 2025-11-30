@@ -1,0 +1,136 @@
+<div class="max-w-6xl mx-auto">
+    <header class="mb-8">
+        <h1 class="text-[#4A90E2] text-3xl font-semibold">
+            <?= $title ?>
+        </h1>
+        <p class="text-gray-400 mt-2">Adicione ou remova participantes do evento</p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Adicionar Participante -->
+        <div class="lg:col-span-1">
+            <div class="bg-[#14254E] rounded-lg border border-[#2B6CE4] p-6">
+                <h2 class="text-xl font-semibold text-white mb-4">
+                    <i class="bi bi-person-plus-fill text-[#4A90E2]"></i>
+                    Adicionar Participante
+                </h2>
+
+                <form action="<?= route('event.participants.add', ['event_id' => $event->id, 'participant_id' => 0]) ?>"
+                      method="POST"
+                      id="addParticipantForm">
+                    <div class="mb-4">
+                        <label for="participant_id" class="block mb-2 text-sm font-medium text-[#4A90E2]">
+                            Selecione o usuário:
+                        </label>
+                        <select name="participant_id"
+                                id="participant_id"
+                                class="w-full rounded-md bg-[#0B1636] border border-[#2B6CE4] focus:border-[#2B6CE4] focus:ring-1 focus:ring-[#2B6CE4] text-white px-4 py-3"
+                                required>
+                            <option value="">Escolha um usuário</option>
+                            <?php foreach ($allUsers as $user) : ?>
+                                <?php
+                                // Verifica se o usuário já é participante
+                                $isParticipant = false;
+                                foreach ($participants as $p) {
+                                    if ($p->id === $user->id) {
+                                        $isParticipant = true;
+                                        break;
+                                    }
+                                }
+                                ?>
+                                <?php if (!$isParticipant) : ?>
+                                    <option value="<?= $user->id ?>">
+                                        <?= $user->name ?> (<?= $user->email ?>)
+                                    </option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full px-6 py-3 bg-[#2B6CE4] text-white rounded-md hover:bg-[#1F54C7] transition-colors font-medium">
+                        <i class="bi bi-plus-circle mr-2"></i>
+                        Adicionar
+                    </button>
+                </form>
+
+                <div class="mt-4 text-center">
+                    <a href="<?= route('events.show', ['id' => $event->id]) ?>"
+                       class="text-[#4A90E2] hover:underline text-sm">
+                        <i class="bi bi-arrow-left"></i>
+                        Voltar ao Evento
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Participantes -->
+        <div class="lg:col-span-2">
+            <div class="bg-[#14254E] rounded-lg border border-[#2B6CE4] p-6">
+                <h2 class="text-xl font-semibold text-white mb-4">
+                    <i class="bi bi-people-fill text-[#4A90E2]"></i>
+                    Participantes Inscritos (<?= count($participants) ?>)
+                </h2>
+
+                <?php if (empty($participants)) : ?>
+                    <div class="text-center py-8">
+                        <i class="bi bi-person-x text-[#4A90E2] text-5xl mb-4"></i>
+                        <p class="text-gray-400">Nenhum participante inscrito ainda.</p>
+                        <p class="text-gray-500 text-sm mt-2">
+                            Use o formulário ao lado para adicionar participantes.
+                        </p>
+                    </div>
+                <?php else : ?>
+                    <div class="rounded-lg overflow-hidden border border-[#2B6CE4]">
+                        <table class="w-full">
+                            <thead class="bg-[#0B1636]">
+                                <tr>
+                                    <th class="text-left py-3 px-4 text-[#4A90E2] font-semibold text-sm">ID</th>
+                                    <th class="text-left py-3 px-4 text-[#4A90E2] font-semibold text-sm">Nome</th>
+                                    <th class="text-left py-3 px-4 text-[#4A90E2] font-semibold text-sm">Email</th>
+                                    <th class="text-left py-3 px-4 text-[#4A90E2] font-semibold text-sm">CPF</th>
+                                    <th class="text-center py-3 px-4 text-[#4A90E2] font-semibold text-sm">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#1a2a4e]">
+                                <?php foreach ($participants as $participant) : ?>
+                                    <tr class="hover:bg-[#0B1636] transition-colors">
+                                        <td class="py-3 px-4 text-white">#<?= $participant->id ?></td>
+                                        <td class="py-3 px-4 text-white font-medium"><?= $participant->name ?></td>
+                                        <td class="py-3 px-4 text-white"><?= $participant->email ?></td>
+                                        <td class="py-3 px-4 text-white"><?= $participant->cpf ?? '-' ?></td>
+                                        <td class="py-3 px-4 text-center">
+                                            <form action="<?= route('event.participants.remove', ['event_id' => $event->id, 'participant_id' => $participant->id]) ?>"
+                                                  method="POST"
+                                                  class="inline-block"
+                                                  onsubmit="return confirm('Tem certeza que deseja remover <?= addslashes($participant->name) ?> deste evento?')">
+                                                <button type="submit"
+                                                        class="text-red-500 hover:text-red-400 p-2 rounded transition-colors"
+                                                        title="Remover participante">
+                                                    <i class="bi bi-trash text-lg"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Atualiza a action do formulário quando um usuário é selecionado
+document.getElementById('participant_id').addEventListener('change', function() {
+    const participantId = this.value;
+    const eventId = <?= $event->id ?>;
+    const form = document.getElementById('addParticipantForm');
+
+    if (participantId) {
+        form.action = `/events/${eventId}/participants/${participantId}/add`;
+    }
+});
+</script>
