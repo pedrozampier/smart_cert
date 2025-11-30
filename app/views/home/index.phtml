@@ -1,38 +1,58 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartCert - Home</title>
-    <style>
-        body {
-            background-color: #011029; 
-            color: white; 
-            font-family: Arial, sans-serif;
-        }
-        button {
-            background-color: #094CAD; 
-            color: white; 
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #083A8A; 
-        }
-    </style>
-</head>
-<body>
-    <button 
-        onclick="window.location.href='/users'">
-        Users
-    </button>
-    
-    <button 
-        onclick="window.location.href='/logos'">
-        Logos
-    </button>
-</body>
-</html>
+<div class="max-w-7xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-[#4A90E2] mb-2">Bem-vindo ao SmartCert</h1>
+        <p class="text-gray-400">Gerencie seus eventos e certificados de forma simples e eficiente</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <a href="<?= route('events.index') ?>" class="block bg-[#14254E] border border-[#2B6CE4] rounded-lg p-6 hover:bg-[#1a2e5c] transition-all hover:scale-105">
+            <div class="flex items-center mb-4">
+                <div class="bg-[#2B6CE4] p-3 rounded-lg">
+                    <i class="bi bi-calendar-event text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold ml-4 text-[#4A90E2]">Meus Eventos</h3>
+            </div>
+            <p class="text-gray-400">Crie e gerencie os eventos que você organizou</p>
+        </a>
+
+        <a href="<?= route('event.participants') ?>" class="block bg-[#14254E] border border-[#2B6CE4] rounded-lg p-6 hover:bg-[#1a2e5c] transition-all hover:scale-105">
+            <div class="flex items-center mb-4">
+                <div class="bg-[#2B6CE4] p-3 rounded-lg">
+                    <i class="bi bi-list-check text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold ml-4 text-[#4A90E2]">Todos os Eventos</h3>
+            </div>
+            <p class="text-gray-400">Navegue por todos os eventos disponíveis</p>
+        </a>
+
+        <a href="<?= route('event.participants.my-events') ?>" class="block bg-[#14254E] border border-[#2B6CE4] rounded-lg p-6 hover:bg-[#1a2e5c] transition-all hover:scale-105">
+            <div class="flex items-center mb-4">
+                <div class="bg-[#2B6CE4] p-3 rounded-lg">
+                    <i class="bi bi-person-check text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold ml-4 text-[#4A90E2]">Minhas Inscrições</h3>
+            </div>
+            <p class="text-gray-400">Veja os eventos em que você está participando</p>
+        </a>
+
+        <a href="<?= route('logos.index') ?>" class="block bg-[#14254E] border border-[#2B6CE4] rounded-lg p-6 hover:bg-[#1a2e5c] transition-all hover:scale-105">
+            <div class="flex items-center mb-4">
+                <div class="bg-[#2B6CE4] p-3 rounded-lg">
+                    <i class="bi bi-image text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold ml-4 text-[#4A90E2]">Meus Logos</h3>
+            </div>
+            <p class="text-gray-400">Gerencie os logos dos seus eventos</p>
+        </a>
+
+        <a href="<?= route('users.index') ?>" class="block bg-[#14254E] border border-[#2B6CE4] rounded-lg p-6 hover:bg-[#1a2e5c] transition-all hover:scale-105">
+            <div class="flex items-center mb-4">
+                <div class="bg-[#2B6CE4] p-3 rounded-lg">
+                    <i class="bi bi-people text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold ml-4 text-[#4A90E2]">Usuários</h3>
+            </div>
+            <p class="text-gray-400">Gerencie usuários do sistema (Admin)</p>
+        </a>
+    </div>
+</div>
