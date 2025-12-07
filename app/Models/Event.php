@@ -77,4 +77,31 @@ class Event extends Model
     {
         return EventParticipant::exists(['event_id' => $this->id, 'participant_id' => $user->id]);
     }
+
+    public static function searchByName(string $searchTerm, int $ownerId): array
+    {
+        $pdo = \Core\Database\Database::getDatabaseConn();
+        $table = static::$table;
+        $attributes = implode(', ', static::$columns);
+
+        $sql = <<<SQL
+            SELECT id, {$attributes} FROM {$table}
+            WHERE owner_id = :owner_id
+            AND name LIKE :search_term
+            ORDER BY created_at DESC
+        SQL;
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':owner_id', $ownerId);
+        $stmt->bindValue(':search_term', "%{$searchTerm}%");
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $models = [];
+        foreach ($rows as $row) {
+            $models[] = new static($row);
+        }
+        return $models;
+    }
 }

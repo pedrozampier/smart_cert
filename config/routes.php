@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/logos/{id}', [LogosController::class, 'destroy'])->name('logos.destroy');
 
     Route::get('/events/new', [EventsController::class, 'new'])->name('events.new');
+    Route::get('/events/search', [EventsController::class, 'search'])->name('events.search');
     Route::get('/events/all', [EventParticipantsController::class, 'index'])
         ->name('event.participants');
     Route::get('/events/all/page/{page}', [EventParticipantsController::class, 'index'])
