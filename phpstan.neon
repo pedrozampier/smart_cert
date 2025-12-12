@@ -9,7 +9,7 @@ parameters:
 
   excludePaths:
     - app/views/*
-    - tests/Acceptance/_output/*
+    - tests/Acceptance/*
     - tests/Support/_generated/*
     - tests/Support/Data/*
 
