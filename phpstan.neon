@@ -10,12 +10,10 @@ parameters:
   excludePaths:
     - app/views/*
     - tests/Acceptance/*
-    - tests/Support/_generated/*
-    - tests/Support/Data/*
+    - tests/Support/*
 
   ignoreErrors:
     - '#Unsafe usage of new static\(\)\.#'
     - '#Access to protected property App\\Models\\User::\$password.#'
     - '#Access to an undefined property Core\\Database\\ActiveRecord\\Model::\$[a-zA-Z0-9_]+.#'
     - '#Call to an undefined method ReflectionType::getName\(\).#'
-    - '#PHPDoc tag @var with type Tests\\Support\\AcceptanceTester is not subtype of native type Codeception\\Module#'
