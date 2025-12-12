@@ -2,13 +2,29 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
   colors="true" cacheDirectory=".cache/phpunit"
-  displayDetailsOnTestsThatTriggerWarnings="true">
+  displayDetailsOnTestsThatTriggerWarnings="true"
+  bootstrap="vendor/autoload.php">
   <php>
     <env name="APP_ENV" value="testing" />
-    <env name="DB_HOST" value="db" />
+    <env name="DB_HOST" value="127.0.0.1" />
     <env name="DB_PORT" value="3306" />
-    <env name="DB_DATABASE" value="problem_test" />
+    <env name="DB_DATABASE" value="smartcert_test" />
     <env name="DB_USERNAME" value="root" />
-    <env name="DB_PASSWORD" value="" />
+    <env name="DB_PASSWORD" value="root" />
   </php>
+  <testsuites>
+    <testsuite name="Unit">
+      <directory>tests/Unit</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>app</directory>
+      <directory>core</directory>
+      <directory>lib</directory>
+    </include>
+    <exclude>
+      <directory>app/views</directory>
+    </exclude>
+  </source>
 </phpunit>

@@ -21,7 +21,7 @@ if (!function_exists('route')) {
         return Router::getInstance()->getRoutePathByName($name, $params);
     }
 
-if (!function_exists('redirect')) {
+    if (!function_exists('redirect')) {
         function redirect(string $url): void
         {
             header("Location: $url");

@@ -7,14 +7,21 @@ use Core\Constants\Constants;
 
 class LogoUpload
 {
+    /** @var array<string, mixed> */
     private array $image;
 
+    /**
+     * @param array<string, mixed> $validations
+     */
     public function __construct(
         private int $user_id,
         private array $validations = []
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $image
+     */
     public function upload(array $image): Logo|false
     {
         $this->image = $image;
@@ -121,7 +128,10 @@ class LogoUpload
         return $path;
     }
 
-    private function getImageDimensions(): ?array
+    /**
+     * @return array{width: int, height: int}
+     */
+    private function getImageDimensions(): array
     {
         $valid_image_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
@@ -135,7 +145,7 @@ class LogoUpload
             }
         }
 
-        return null;
+        return ['width' => 0, 'height' => 0];
     }
 
     private function isValidImage(Logo $logo): bool
@@ -180,7 +190,7 @@ class LogoUpload
     {
         // Tenta carregar a imagem para verificar se é válida
         $image_info = @getimagesize($this->getTmpFilePath());
-        
+
         if ($image_info === false) {
             $logo->addError('logo', 'O arquivo não é uma imagem válida.');
         }
@@ -189,8 +199,9 @@ class LogoUpload
     private function validateImageExtension(Logo $logo): void
     {
         $file_extension = $this->getFileExtension();
+        $allowed_extensions = $this->validations['extension'];
 
-        if (!in_array($file_extension, $this->validations['extension'])) {
+        if (!is_array($allowed_extensions) || !in_array($file_extension, $allowed_extensions)) {
             $logo->addError('logo', 'Extensão de arquivo inválida');
         }
     }

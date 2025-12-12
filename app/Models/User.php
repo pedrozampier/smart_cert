@@ -12,14 +12,30 @@ use Core\Database\ActiveRecord\HasMany;
  * @property string $name
  * @property string $email
  * @property string $encrypted_password
- * @property string $avatar_name
+ * @property string|null $avatar_name
+ * @property string|null $phone
+ * @property string $cpf
+ * @property bool $is_active
+ * @property bool $is_admin
+ * @property string $created_at
+ * @property string $updated_at
  * @property Event[] $created_events
  * @property Event[] $participating_events
  */
 class User extends Model
 {
     protected static string $table = 'users';
-    protected static array $columns = ['created_at', 'updated_at', 'name', 'email', 'encrypted_password', 'phone', 'cpf', 'is_active', 'is_admin'];
+    protected static array $columns = [
+        'created_at',
+        'updated_at',
+        'name',
+        'email',
+        'encrypted_password',
+        'phone',
+        'cpf',
+        'is_active',
+        'is_admin'
+    ];
 
     protected ?string $password = null;
     protected ?string $password_confirmation = null;
