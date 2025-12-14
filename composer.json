@@ -1,5 +1,13 @@
 {
-  "name": "root/app",
+  "name": "smartcert/smart-cert",
+  "description": "SmartCert - Sistema de Gerenciamento de Certificados e Eventos",
+  "type": "project",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "SmartCert Team"
+    }
+  ],
   "autoload": {
     "files": [
       "core/helpers.php"
@@ -13,6 +21,9 @@
       "Config\\": "config/"
     }
   },
+  "require": {
+    "php": "^8.2"
+  },
   "require-dev": {
     "phpunit/phpunit": "^11.1",
     "squizlabs/php_codesniffer": "*",
@@ -21,5 +32,11 @@
     "codeception/module-phpbrowser": "*",
     "codeception/module-asserts": "*",
     "codeception/module-webdriver": "^4.0"
-  }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }

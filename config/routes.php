@@ -54,10 +54,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/events/{id}/participants', [EventParticipantsController::class, 'manage'])
         ->name('event.participants.manage');
-    Route::post('/events/{event_id}/participants/{participant_id}/add', [EventParticipantsController::class, 'addParticipant'])
-        ->name('event.participants.add');
-    Route::post('/events/{event_id}/participants/{participant_id}/remove', [EventParticipantsController::class, 'removeParticipant'])
-        ->name('event.participants.remove');
+    Route::post(
+        '/events/{event_id}/participants/{participant_id}/add',
+        [EventParticipantsController::class, 'addParticipant']
+    )->name('event.participants.add');
+    Route::post(
+        '/events/{event_id}/participants/{participant_id}/remove',
+        [EventParticipantsController::class, 'removeParticipant']
+    )->name('event.participants.remove');
 
     Route::get('/user/dashboard', [HomeController::class, 'userDashboard'])->name('user.dashboard');
 });
