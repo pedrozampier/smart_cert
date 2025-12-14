@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/logos/{id}', [LogosController::class, 'destroy'])->name('logos.destroy');
 
     Route::get('/events/new', [EventsController::class, 'new'])->name('events.new');
+    Route::get('/events/search', [EventsController::class, 'search'])->name('events.search');
     Route::get('/events/all', [EventParticipantsController::class, 'index'])
         ->name('event.participants');
     Route::get('/events/all/page/{page}', [EventParticipantsController::class, 'index'])
@@ -53,10 +54,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/events/{id}/participants', [EventParticipantsController::class, 'manage'])
         ->name('event.participants.manage');
-    Route::post('/events/{event_id}/participants/{participant_id}/add', [EventParticipantsController::class, 'addParticipant'])
-        ->name('event.participants.add');
-    Route::post('/events/{event_id}/participants/{participant_id}/remove', [EventParticipantsController::class, 'removeParticipant'])
-        ->name('event.participants.remove');
+    Route::post(
+        '/events/{event_id}/participants/{participant_id}/add',
+        [EventParticipantsController::class, 'addParticipant']
+    )->name('event.participants.add');
+    Route::post(
+        '/events/{event_id}/participants/{participant_id}/remove',
+        [EventParticipantsController::class, 'removeParticipant']
+    )->name('event.participants.remove');
 
     Route::get('/user/dashboard', [HomeController::class, 'userDashboard'])->name('user.dashboard');
 });

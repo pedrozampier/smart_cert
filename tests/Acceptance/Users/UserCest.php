@@ -53,7 +53,7 @@ class UserCest extends BaseAcceptanceCest
 
         $page->login($admin->email, '123456');
         $page->amOnPage("/users/{$user->id}/edit");
-        $page->wait(1); 
+        $page->wait(1);
 
         $page->fillField('user[email]', 'email-invalido');
         $page->click('Atualizar Usuário');

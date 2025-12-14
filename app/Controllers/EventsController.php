@@ -141,4 +141,36 @@ class EventsController extends Controller
         FlashMessage::success('Evento removido com sucesso!');
         $this->redirectTo(route('events.index'));
     }
+
+    public function search(Request $request): void
+    {
+        $searchTerm = $request->getParam('q', '');
+
+        if (empty($searchTerm)) {
+            $events = $this->current_user->createdEvents()->get();
+        } else {
+            $events = Event::searchByName($searchTerm, $this->current_user->id);
+        }
+
+        if ($request->acceptJson()) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => true,
+                'events' => array_map(function ($event) {
+                    return [
+                        'id' => $event->id,
+                        'name' => $event->name,
+                        'description' => $event->description,
+                        'start_date' => $event->start_date,
+                        'end_date' => $event->end_date,
+                        'event_location' => $event->event_location,
+                        'workload_hours' => $event->workload_hours,
+                        'event_type' => $event->event_type
+                    ];
+                }, $events)
+            ]);
+        } else {
+            $this->redirectTo(route('events.index'));
+        }
+    }
 }

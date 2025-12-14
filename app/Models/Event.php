@@ -12,11 +12,11 @@ use Core\Database\ActiveRecord\BelongsToMany;
  * @property string $name
  * @property string $description
  * @property string $start_date
- * @property string $end_date
+ * @property string|null $end_date
  * @property string $event_location
  * @property int $workload_hours
  * @property string $event_type
- * @property int $logo_id
+ * @property int|null $logo_id
  * @property int $creator_id
  * @property int $owner_id
  * @property string $created_at
@@ -76,5 +76,35 @@ class Event extends Model
     public function hasParticipant(User $user): bool
     {
         return EventParticipant::exists(['event_id' => $this->id, 'participant_id' => $user->id]);
+    }
+
+    /**
+     * @return Event[]
+     */
+    public static function searchByName(string $searchTerm, int $ownerId): array
+    {
+        $pdo = \Core\Database\Database::getDatabaseConn();
+        $table = static::$table;
+        $attributes = implode(', ', static::$columns);
+
+        $sql = <<<SQL
+            SELECT id, {$attributes} FROM {$table}
+            WHERE owner_id = :owner_id
+            AND name LIKE :search_term
+            ORDER BY created_at DESC
+        SQL;
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':owner_id', $ownerId);
+        $stmt->bindValue(':search_term', "%{$searchTerm}%");
+        $stmt->execute();
+
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $models = [];
+        foreach ($rows as $row) {
+            $models[] = new static($row);
+        }
+        return $models;
     }
 }
