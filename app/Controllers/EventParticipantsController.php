@@ -18,7 +18,11 @@ class EventParticipantsController extends Controller
 
         $title = 'Todos os Eventos';
 
-        $this->render('event_participants/index', compact('paginator', 'events', 'title'));
+        if ($request->acceptJson()) {
+            $this->renderJson('event_participants/index', compact('paginator', 'events', 'title'));
+        } else {
+            $this->render('event_participants/index', compact('paginator', 'events', 'title'));
+        }
     }
 
     public function myEvents(): void
@@ -56,6 +60,12 @@ class EventParticipantsController extends Controller
         $event = $this->current_user->createdEvents()->findById($event_id);
 
         if (!$event) {
+            if ($request->acceptJson()) {
+                $success = false;
+                $message = 'Evento não encontrado ou você não tem permissão para adicionar participantes!';
+                $this->renderJson('event_participants/add_participant', compact('success', 'message'));
+                return;
+            }
             FlashMessage::danger('Evento não encontrado ou você não tem permissão para adicionar participantes!');
             $this->redirectTo(route('events.index'));
             return;
@@ -67,9 +77,21 @@ class EventParticipantsController extends Controller
         ]);
 
         if ($eventParticipant->save()) {
+            if ($request->acceptJson()) {
+                $success = true;
+                $message = 'Participante adicionado com sucesso!';
+                $participant = $eventParticipant;
+                $this->renderJson('event_participants/add_participant', compact('success', 'message', 'participant'));
+                return;
+            }
             FlashMessage::success('Participante adicionado com sucesso!');
         } else {
             $message = $eventParticipant->errors('participant_id');
+            if ($request->acceptJson()) {
+                $success = false;
+                $this->renderJson('event_participants/add_participant', compact('success', 'message'));
+                return;
+            }
             FlashMessage::danger('Erro ao adicionar participante: ' . $message);
         }
 
@@ -84,6 +106,12 @@ class EventParticipantsController extends Controller
         $event = $this->current_user->createdEvents()->findById($event_id);
 
         if (!$event) {
+            if ($request->acceptJson()) {
+                $success = false;
+                $message = 'Evento não encontrado ou você não tem permissão para remover participantes!';
+                $this->renderJson('event_participants/remove_participant', compact('success', 'message'));
+                return;
+            }
             FlashMessage::danger('Evento não encontrado ou você não tem permissão para remover participantes!');
             $this->redirectTo(route('events.index'));
             return;
@@ -95,9 +123,21 @@ class EventParticipantsController extends Controller
         ]);
 
         if ($eventParticipant == null) {
+            if ($request->acceptJson()) {
+                $success = false;
+                $message = 'Participante não encontrado neste evento.';
+                $this->renderJson('event_participants/remove_participant', compact('success', 'message'));
+                return;
+            }
             FlashMessage::danger('Participante não encontrado neste evento.');
         } else {
             $eventParticipant->destroy();
+            if ($request->acceptJson()) {
+                $success = true;
+                $message = 'Participante removido com sucesso.';
+                $this->renderJson('event_participants/remove_participant', compact('success', 'message'));
+                return;
+            }
             FlashMessage::success('Participante removido com sucesso.');
         }
 
